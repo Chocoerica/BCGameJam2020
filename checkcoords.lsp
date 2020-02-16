@@ -11,16 +11,17 @@ otherwise return original worldlist
 (defvar grid (make-array (list 5 5)))
 
 ;;kinda new stuff - if not nil, fill in with random
-(loop for x from 0 to 4
-	do (loop for y from 0 to 4
-		do (progn
-			(if (eq nil (aref grid y x))
-				(setf (aref grid y x) (string(code-char (+ (random 25) 97))) )
+(defun rand-fill-in (grid size) ;;fills in non-nil index size by size grid with strings
+	(loop for x from 0 to size
+		do (loop for y from 0 to size
+			do (progn
+				(if (eq nil (aref grid y x))
+					(setf (aref grid y x) (string(code-char (+ (random 25) 97))) )
+				)
 			)
 		)
 	)
 )
-
 (write grid)
 (format t "~%")
 
