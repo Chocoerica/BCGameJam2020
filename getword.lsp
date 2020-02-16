@@ -384,21 +384,26 @@ What this file does:
 	(format t "~%~%WORDS to find: " )
 			(dolist (ww *words*) (format t "~a " ww)) ; print words
 			(format t "~%")
-	(format t "  ")
+	(format t " ")
 	(loop for y from 0 to (- size 1)
 		do(progn
-			(format t "~a " y)
+			;(format t "~a " y)
+			(format t "~c[37m~A ~c[0m" #\ESC y #\ESC) ;Top numbered lines colour
 		)
 	)
 	(format t "~%")
 	(loop for y from 0 to (- size 1)
 		do (progn
-			(format t "~a " y)
+			;(format t "~a " y)
+			(format t "~c[37m~A~c[0m" #\ESC y #\ESC) ;Left side coordinate reference bar
 			(loop for x from 0 to (- size 1)
 				do (progn
 					(if (eq nil(aref grid y x)) 
 						(format t "  ") 
-						(format t "~a "(aref grid y x))
+						;(format t "~a "(aref grid y x))
+						(if something happpens
+						(format t "~c[32m~A ~c[0m" #\ESC (aref grid y x) #\ESC)
+						
 					)
 				)
 			)

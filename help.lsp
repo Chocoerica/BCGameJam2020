@@ -16,7 +16,7 @@
 	(print count)
 	(defvar size 10)
 	;(defvar direction (random 8))
-	(defvar direction 3)
+	(setf direction (random 7))
 	(setf x (random size))	
 	(setf y (random size))	
 	(defvar wordLength (length wordString))
