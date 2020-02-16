@@ -6,5 +6,6 @@
 	:components(
 		(:file "package")
 		(:file "word-search")
+		(:file "start")
 		
 		))
