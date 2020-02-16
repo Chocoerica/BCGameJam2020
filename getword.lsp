@@ -1,5 +1,13 @@
+; 3 2 1
+;  \|/
+;4--+--0
+;  /|\
+; 5 6 7
+
+
 (setq *print-case* :downcase) ; all printed stuff will be lower case
 (setf *random-state* (make-random-state t)) ; set randomness
+
 
 (defvar *word-dictionary* (list "Super" "Good" "Hello" "Bear" "Given" 
 							"Regret" "Crocs" "Apple" "Heart" "Love"     
@@ -9,18 +17,121 @@
 							"Oranges" "Feel" "Someone" "Glory" "Guts" "Circle"      
 							"Friend" "Everyone" "Prevail" "Pack" "Compassion" 
 							"WhyLisp" "Empathy" "Suffering" "Concern" "World" ) )
-#||                                         
-function that returns 1 word at a time
-
-need to see if word fits
-if it fits, then remove word from temp-dictionary
+#||  
+What this file does:
+	- function that takes list of words from dictionary
+	- see if word fits
+	- if it fits, then remove word from temp-dictionary
 ||# 
 
-(defun check-word-fit (word count) ; given word to fit in, etc. 
-	;; if word fits, put it in grid
-	;; returns bool of if it was successful or not
-	(= 1 1)
+(defvar size 10)
+
+(defvar count2 0)
+
+(defvar test (make-array (list size size)))
+
+(defun check-word-fit(wordString);check-word-fit given word to fit in, etc. CHECK MITCH CODE
+;; if word fits, put it in grid
+;; returns bool of if it was successful or not
+	(format t "count is ~a ~%" count2)
+	;(defvar wordString "This")
+;	(print "Count =")
+;	(print count)
+	;(defvar direction (random 8))
+	(setf direction (random 7))
+	(setf x (random size))	
+	(setf y (random size))	
+	(defvar wordLength (length wordString))
+	
+	(format t "x = ~A~%" x)
+	(format t "y = ~A~%" y)
+	(format t "direction = ~A~%" direction)
+	;(write (make-array (list size size) :initial-element '0))
+	;(setf (aref make-array 2 4) "1")
+	;(terpri)
+
+	(print wordString)
+
+	(if (> count2 10)
+		(return)	
+	)
+	
+	
+	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
+		(print (- y wordLength))
+		(if(> -1 (- y wordLength))
+			(progn
+			;(print "This is bad 1") 
+			(setf count2 (+ count2 1))
+
+			(check-word-fit wordString)
+			(return))))
+
+	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
+		(print (- x wordLength))
+		(if(> -1 (- x wordLength))
+			(progn
+			;(print "This is bad 2")
+			(setf count2 (+ count2 1))
+			(check-word-fit wordString)
+			(return))))
+
+	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down
+		(print (+ y wordLength))
+		(if(< size (+ y wordLength))
+			(progn
+			;(print "This is bad 3")
+			(setf count2 (+ count2 1))
+			(check-word-fit wordString)
+			(return))))
+
+	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
+		(print (+ x wordLength))
+		(if(< size (+ x wordLength))
+			(progn
+			;(print "This is bad 4")
+			(setf count2 (+ count2 1))
+			(check-word-fit wordString)
+			(return))))
+
+
+	(print "there")
+	(loop for c across wordString
+		do (progn
+;			(print direction)
+;			(print c)
+;			(print x)
+;			(print y)
+			(setf (aref test x y) c)
+;			(print "here")
+	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
+;		(print "if one")
+		(setf y (- y 1)))
+
+	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
+;		(print "if two")
+		(setf x (- x 1)))
+
+	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
+;		(print "If three")
+		(setf y (+ y 1)))
+
+	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
+;		(print "if four")
+		(setf x (+ x 1))))
+	)
+
+	(write test)
+	;(setq ((wordLength)(length wordString))
+
+	;(print wordLength)
+	;(print direction)
+	;(print x)
+	;(print y)
+	(return (< 1 10))
 )
+
+;;----------------------------
 
 (defun remove-word (index list)
 	(if (zerop index)(cdr list) 
@@ -50,7 +161,8 @@ if it fits, then remove word from temp-dictionary
 		(format t "~a and rand num is ~a ~%" x rand-num)
 		
 		;; need to add test if fit function SEE MITCH's CODE 
-		(if (check-word-fit (nth rand-num dictionary) 0) ;; LATER SEE MITCH'S CODE
+		(setf count 0)
+		(if (check-word-fit (nth rand-num dictionary) ) ;; LATER SEE MITCH'S CODE
 			(push (nth rand-num dictionary) word-list) ; put in word-list
 		)  
 		
@@ -74,7 +186,7 @@ if it fits, then remove word from temp-dictionary
 ;;-------------------------------------------------------------------------
 
 ;(defvar *words* (choose-words *word-dictionary*)) 
-(defvar *words* (choose-words *word-dictionary* 45)) 
+(defvar *words* (choose-words *word-dictionary* 1)) 
 (format t "~%~% words are: ~a~%" *words*)
 
 #||
