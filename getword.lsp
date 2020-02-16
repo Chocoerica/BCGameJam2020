@@ -100,13 +100,13 @@ What this file does:
 	(if (or (eq x1 x2) (eq y1 y2) (eq (abs (- x2 x1)) (abs (- y2 y1))) )
 	;; if (x1 == x2) or (y1 == y2) or (abs(x1-x2) == abs(y1-y2)) then it works
 		(progn
-			(format t "straight line ~%")
+			;; (format t "straight line ~%")
 			;;then check contents of coordinates
 			;; first create word
 			(let ((new-word "")(max-mvmt (max (abs (- x2 x1)) (abs(- y2 y1)) ))(col-num x1)(row-num y1)) 
 				(loop for m from 0 to max-mvmt ; max-mvmt is maximal movement in any direction 
 					do(progn
-						(format t "col-num is: ~a row-num is: ~a ~%" col-num row-num)
+						;; (format t "col-num is: ~a row-num is: ~a ~%" col-num row-num)
 						;; for each of loop -> collect current character, and add to string
 						(setf new-word (concatenate 'string new-word (aref test row-num col-num )))
 						(if (> (- x2 col-num) 0) (setq col-num (+ col-num 1)))
@@ -123,11 +123,11 @@ What this file does:
 				(if (> (length new-word) 0) 
 					;check against word-list
 					(progn
-						(format t " hey ~a ~%" new-word)
+						;; (format t " hey ~a ~%" new-word)
 					;;recursive search 
 						(let ((index (match-word new-word (length word-list) word-list)))
-							(format t "word found at index ~a ~%" index)
-							(format t "whoop~%")
+							;; (format t "word found at index ~a ~%" index)
+							;; (format t "whoop~%")
 							; return wordlist without that thing at index i
 							(if (not (eq nil index))
 								(progn
@@ -303,7 +303,7 @@ What this file does:
 						)
 						(setf x1 (+ x1 1))
 					)
-				)
+				)	
 			)
 
 		)
