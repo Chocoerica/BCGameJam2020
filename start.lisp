@@ -87,7 +87,7 @@
 	
 )
 
-;; CHECK-COORDS FUNCTION HERE
+;; Check if two point's coordinates create a word
 (defun check-coords (x1 y1 x2 y2 &optional word-list)
 	;;first check if coordinates are in a straight line
 	(if (or (eq x1 x2) (eq y1 y2) (eq (abs (- x2 x1)) (abs (- y2 y1))) )
@@ -332,7 +332,7 @@
 	)
 )
 
-;; Start function
+;; function chooses words and populates a 2D array
 (defun choose-words (dictionary &optional num-words) 
 	;;given a list of 40 words, returns a list of num-words words
 	;; calls on check-word-fit for every word to see if it fits
@@ -497,7 +497,7 @@
 			(format t "~a " y)
 			(loop for x from 0 to 9
 				do (progn
-					(gamekit:draw-text (aref *test* x y) (gamekit:vec2 (+ (* x 60) 200) (+ (y 60) 200) ) :fill-color *color2*)
+					(gamekit:draw-text (aref *test* x y) (gamekit:vec2 (+ (* x 60) 200) (+ (y 60) 200) ) :fill-color *color2* )
 				)
 			)
 		)
