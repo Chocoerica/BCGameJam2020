@@ -30,6 +30,43 @@ What this file does:
 (defvar wordLength 0)
 (defvar test (make-array (list size size)))
 
+; ============================== Init Game System ====================================
+
+; print out instructions and wait for signal to start
+(princ "Welcome to the end of you existence")
+(terpri)
+(princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
+(terpri)
+(princ "Enter Y to begin..............")
+(read)
+
+; this needs to be in a while forever loop with an escape condition
+(defun take_input() 
+    (princ "Enter starting coordinates in as a pair, ex (x y): ")
+    (setq start (read-from-string (read-line)))
+
+    (princ "Enter ending coordinates in as a pair, ex (x y): ")
+    (setq end (read-from-string (read-line)))
+
+    (if (or 
+        
+        (or (< (car start) 0) (>= (car start) size))
+        (or (< (second start ) 0) (>= (second start) size))
+
+        (or (< (car end) 0) (>= (car end) size))
+        (or (< (second end ) 0) (>= (second end) size) )
+        
+        )
+        ;; 0 <= start < size || 0 <= end < size
+        (progn  (princ "Invalid input >:( ......Try again")
+                (terpri)
+                (take_input)
+        )
+    )
+)
+
+; ====================================================================================
+
 (defun check-word-fit(wordString);check-word-fit given word to fit in, etc. CHECK MITCH CODE
 ;; if word fits, put it in grid
 ;; returns bool of if it was successful or not
@@ -124,7 +161,8 @@ What this file does:
 ;			(print y)
 			(setf (aref test x y) c) ; THIS WAS WRONG BUT WE CHANGED ALL OTHER X's and Y's TO FIX IT
 ;			(print "here")
-
+		)
+	)
 	
 	;; VALIDATE IF OVERLAPPING HERE I GUESS BEFORE PRINTING ONTO THING
 	;;; should inc count2 and call func again
@@ -276,6 +314,7 @@ What this file does:
 	)
 )
 
+;; Start function
 (defun choose-words (dictionary &optional num-words) 
 	;;given a list of 40 words, returns a list of num-words words
 	;; calls on check-word-fit for every word to see if it fits
