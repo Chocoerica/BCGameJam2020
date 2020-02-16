@@ -7,7 +7,7 @@
 
 (setq *print-case* :downcase) ; all printed stuff will be lower case
 (setf *random-state* (make-random-state t)) ; set randomness
-
+(in-package #:lisp-search)
 
 (defvar *word-dictionary* (list "super" "good" "hello" "bear" "given" 
 							"regret" "crocs" "apple" "heart" "love"     
@@ -34,29 +34,29 @@ What this file does:
 (defvar end 0)
 
 ; this needs to be in a while forever loop with an escape condition
-(defun take_input() 
-    (princ "Enter starting coordinates in as a pair, ex (x y): ")
-    (setq start (read-from-string (read-line)))
+;; (defun take_input() 
+;;     (princ "Enter starting coordinates in as a pair, ex (x y): ")
+;;     (setq start (read-from-string (read-line)))
 
-    (princ "Enter ending coordinates in as a pair, ex (x y): ")
-    (setq end (read-from-string (read-line)))
+;;     (princ "Enter ending coordinates in as a pair, ex (x y): ")
+;;     (setq end (read-from-string (read-line)))
 
-    (if (or 
+;;     (if (or 
         
-        (or (< (car start) 0) (>= (car start) size))
-        (or (< (second start ) 0) (>= (second start) size))
+;;         (or (< (car start) 0) (>= (car start) size))
+;;         (or (< (second start ) 0) (>= (second start) size))
 
-        (or (< (car end) 0) (>= (car end) size))
-        (or (< (second end ) 0) (>= (second end) size) )
+;;         (or (< (car end) 0) (>= (car end) size))
+;;         (or (< (second end ) 0) (>= (second end) size) )
         
-        )
-        ;; 0 <= start < size || 0 <= end < size
-        (progn  (princ "Invalid input >:( ......Try again")
-                (terpri)
-                (take_input)
-        )
-    )
-)
+;;         )
+;;         ;; 0 <= start < size || 0 <= end < size
+;;         (progn  (princ "Invalid input >:( ......Try again")
+;;                 (terpri)
+;;                 (take_input)
+;;         )
+;;     )
+;; )
 
 (defun rand-fill-in() ;;fills in non-nil index size by size grid with strings
 	(loop for x from 0 to (- size 1)
@@ -380,60 +380,199 @@ What this file does:
 	(setq word-list word-list)
 )
 
-(defun print-grid (grid &optional *words*) ;;fills in non-nil index size by size grid with strings
-	(format t "~%~%WORDS to find: " )
-			(dolist (ww *words*) (format t "~a " ww)) ; print words
-			(format t "~%")
-	(format t "  ")
-	(loop for y from 0 to (- size 1)
-		do(progn
-			(format t "~a " y)
-		)
-	)
-	(format t "~%")
-	(loop for y from 0 to (- size 1)
-		do (progn
-			(format t "~a " y)
-			(loop for x from 0 to (- size 1)
-				do (progn
-					(if (eq nil(aref grid y x)) 
-						(format t "  ") 
-						(format t "~a "(aref grid y x))
+;; (defun print-grid (grid &optional *words*) ;;fills in non-nil index size by size grid with strings
+;; 	(format t "~%~%WORDS to find: " )
+;; 			(dolist (ww *words*) (format t "~a " ww)) ; print words
+;; 			(format t "~%")
+;; 	(format t "  ")
+;; 	(loop for y from 0 to (- size 1)
+;; 		do(progn
+;; 			(format t "~a " y)
+;; 		)
+;; 	)
+;; 	(format t "~%")
+;; 	(loop for y from 0 to (- size 1)
+;; 		do (progn
+;; 			(format t "~a " y)
+;; 			(loop for x from 0 to (- size 1)
+;; 				do (progn
+;; 					(if (eq nil(aref grid y x)) 
+;; 						(format t "  ") 
+;; 						(format t "~a "(aref grid y x))
+;; 					)
+;; 				)
+;; 			)
+;; 		)
+;; 		(format t "~%")
+;; 	)
+;; )
+
+
+;; (defvar *words* (choose-words *word-dictionary* 8)) 
+;; (rand-fill-in)
+
+
+;; (princ "Welcome to the end of your existence")
+;; (terpri)
+;; (princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
+;; (terpri)
+;; (princ "Enter \"q\" w/o the quotes to exist the game")
+;; (terpri)
+;; (princ "Enter Y to begin..............")
+;; (read)
+
+;; (loop 
+;; 	(progn
+;; 		; print board
+;; 		(print-grid test *words*)
+;; 		(terpri)
+
+;; 		; take input
+;; 		(take_input)
+
+;; 		; verify
+;; 		(if (not (eq (length *words*) 0))
+;; 			(setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
+;; 			;(dolist (ww *words*) (format t "~a " ww)) ; print words
+;; 		)
+;; 	)
+;; )
+
+; ================================== GUI & Gameloop =========================================
+;; (in-package #:word-search)
+
+;;; global states needed
+(defvar *canvas-w* 1000)
+(defvar *canvas-h* 950)
+(defvar *click* nil) ;t when mouse is being pressed, nil otherwise
+(defvar *color1* (gamekit:vec4 0 0 0 1)) ;for drawing
+(defvar *color2* (gamekit:vec4 0.1 0.3 0.9 0.5))
+(defvar *color3* (gamekit:vec4 0.8 0.8 0.8 0.5))
+(defvar *words*)
+(defvar cont 420)
+(defvar st_b t)
+;;;
+;;; Main Class to run game
+
+(gamekit:defgame word-search()()
+	(:viewport-width *canvas-w*)
+	(:viewport-height *canvas-h*)
+	(:viewport-title "Word Search Game")
+
+)
+
+(defun valid(x y)
+	(and (and (< x 600) (> x -600)) (and (< y 600) (> y -600)))   
+)
+
+;;; Bindings
+(defmethod gamekit:post-initialize ((app word-search))
+	;; init the 2d array graph
+	(setf *words* (choose-words *word-dictionary* 8))
+	(rand-fill-in)
+
+	(gamekit:bind-button :mouse-left :pressed
+				(lambda () (setf *click* t)))
+	(gamekit:bind-button :mouse-left :released 
+				(lambda () (setf *click* nil)))
+	(gamekit:bind-cursor(lambda(x y)
+				(when *click*
+				;; put x, y position into doing something here - translate into input of currfile
+				;; INPUT GOES IN HERE 
+				
+				;; for instructions "screen"
+				(if (eq cont 420)
+					(progn (setf cont 1)
+					(return-from gamekit:post-initialize))
+				)
+				
+				;; do input things
+				(if (st_b)
+					(progn 
+						(let ((xx 600/x) (yy 600/y))
+							(format t "~% X ~a Y ~a ~%" xx yy)
+							(if (not (valid xx yy))
+								(princ ">:( Click a square within the board") ; needs to be a quick draw/flash of text
+								(setf start (list xx yy))
+							)
+						)
+					) ; true => store start
+					(progn
+						(let ((xx 600/x) (yy 600/y)
+							(format t "~% X ~a Y ~a ~%" xx yy)
+							(if (not (valid xx yy))
+								(princ ">:(( Click a square within the board") ; needs to be a quick draw/flash of text
+								(progn
+									(setf end (list xx yy))
+									(if (not (eq (length *words*) 0))
+										(setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
+									)
+								)
+							)
+						)
+						
+						)
+					) ; false => store end
+				)
+
+				)))
+
+	(gamekit:bind-button :q :pressed (lambda () 
+					;quit function
+					(gamekit:stop)
+					))
+)
+
+;;Drawing Game Board
+(defmethod gamekit:draw((app word-search))
+	;do all drawing stuff inside here --> AT START OF GAME
+	(if (eq cont 420)
+		(progn 
+			(gamekit:draw-text "Welcome to the end of your existence" (gamekit:vec2 250 925) :fill-color *color3*)
+			(gamekit:draw-text "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis" (gamekit:vec2 250 915) :fill-color *color3*)
+			(gamekit:draw-text "Click anywhere to begin the game.............." (gamekit:vec2 250 890) :fill-color *color3*)
+		) ; true
+		(progn
+			;; more lines
+			;; and include the letters
+
+			;;===========================================================
+			
+			(loop for i from 0 to 8
+				do(progn
+					( let ((n (+ (* 60 i) 300)))
+						(gamekit:draw-line (gamekit:vec2 n 300) (gamekit:vec2 n 900) color2)
+					)
+					( let ((n (+ (* 60 i) 400)))
+						(gamekit:draw-line (gamekit:vec2 200 n) (gamekit:vec2 800 n) color2)
 					)
 				)
 			)
-		)
-		(format t "~%")
+
+			;get letters from global variables words and test
+			;; get (aref grid x y)?
+
+			(loop for y from 0 to 9
+				do (progn
+					(format t "~a " y)
+					(loop for x from 0 to 9
+						do (progn
+							(gamekit:draw-text (aref test x y) (gamekit:vec2 (+ (* x 60) 200) (+ (y 60) 200) ) :fill-color color2 )
+						)
+					)
+				)
+			)
+			(dolist (ww words) 
+				(gamekit:draw-text ww (gamekit:vec2 100 (- (* x 10) 290)) :fill-color color3)
+			) ; print words
+
+
+			;;---------------------------------
+			(gamekit:draw-text "WORD SEARCH: made from LISP" (gamekit:vec2 250 925) :fill-color *color3*) ; title
+			
+			(gamekit:draw-text "By: Keepers of the Parentheses" (gamekit:vec2 500 125) :fill-color *color3*) ; group name
+		) ; false
+
 	)
-)
+ )
 
-
-(defvar *words* (choose-words *word-dictionary* 8)) 
-(rand-fill-in)
-
-
-(princ "Welcome to the end of your existence")
-(terpri)
-(princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
-(terpri)
-(princ "Enter \"q\" w/o the quotes to exist the game")
-(terpri)
-(princ "Enter Y to begin..............")
-(read)
-
-(loop 
-	(progn
-		; print board
-		(print-grid test *words*)
-		(terpri)
-
-		; take input
-		(take_input)
-
-		; verify
-		(if (not (eq (length *words*) 0))
-			(setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
-			;(dolist (ww *words*) (format t "~a " ww)) ; print words
-		)
-	)
-)
