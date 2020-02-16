@@ -45,8 +45,8 @@ What this file does:
 	(setf y (random size))	
 	(defvar wordLength (length wordString))
 	
-	(format t "x = ~A~%" x)
-	(format t "y = ~A~%" y)
+	(format t "x-coord(y) = ~A~%" y)
+	(format t "y-coord(x) = ~A~%" x)
 	(format t "direction = ~A~%" direction)
 	;(write (make-array (list size size) :initial-element '0))
 	;(setf (aref make-array 2 4) "1")
@@ -62,8 +62,8 @@ What this file does:
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 		(progn
 			(format t "direction = ~A~%" direction)
-			(format t "y end is ~d~%" (- y wordLength))
-			(if(> -1 (- y wordLength))
+			(format t "x end is ~d~%" (- x wordLength))
+			(if(> -1 (- x wordLength))
 				(progn
 					(print "This is bad 1") 
 					(setf count2 (+ count2 1))
@@ -77,8 +77,8 @@ What this file does:
 	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
 		(progn
 			(format t "direction = ~A~%" direction)
-			(format t "x end is ~d~%" (- x wordLength))
-			(if(> -1 (- x wordLength))
+			(format t "y end is ~d~%" (- y wordLength))
+			(if(> -1 (- y wordLength))
 				(progn
 					(print "This is bad 2")
 					(setf count2 (+ count2 1))
@@ -92,8 +92,8 @@ What this file does:
 	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down
 		(progn
 			(format t "direction = ~A~%" direction)
-			(format t "y2 end is ~d~%" (+ y wordLength))
-			(if(< size (+ y wordLength))
+			(format t "x2 end is ~d~%" (+ x wordLength))
+			(if(< size (+ x wordLength))
 				(progn
 					(print "This is bad 3")
 					(setf count2 (+ count2 1))
@@ -107,8 +107,8 @@ What this file does:
 	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
 		(progn
 			(format t "direction = ~A~%" direction)
-			(format t "x2 end is ~d~%" (+ x wordLength))
-			(if(< size (+ x wordLength))
+			(format t "y2 end is ~d~%" (+ y wordLength))
+			(if(< size (+ y wordLength))
 				(progn
 					(print "This is bad 4")
 					(setf count2 (+ count2 1))
@@ -132,28 +132,28 @@ What this file does:
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 		(progn
 ;		(print "if one")
-			(setf y (- y 1))
+			(setf x (- x 1))
 		)
 	)
 
 	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
 		(progn
 ;		(print "if two")
-		(setf x (- x 1))
+		(setf y (- y 1))
 		)
 	)
 
 	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
 		(progn
 ;		(print "If three")
-			(setf y (+ y 1))
+			(setf x (+ x 1))
 		)
 	)
 
 	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
 		(progn
 ;		(print "if four")
-			(setf x (+ x 1))
+			(setf y (+ y 1))
 		)
 	)
 	)
