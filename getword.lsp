@@ -16,7 +16,7 @@ need to see if word fits
 if it fits, then remove word from temp-dictionary
 ||# 
 
-(defun check-word-fit (word count) ; given word to fit in, etc. 
+(defun check-word-fit (word count) ; given word to fit in, etc. CHECK MITCH CODE
 	;; if word fits, put it in grid
 	;; returns bool of if it was successful or not
 	(= 1 1)

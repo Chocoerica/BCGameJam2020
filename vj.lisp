@@ -12,3 +12,4 @@
     (write-string "Enter the ending cell coordintes in parantheses, ex (x y): ")
     (setq end (read-line))
 )
+(test)
