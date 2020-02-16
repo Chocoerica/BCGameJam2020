@@ -127,7 +127,7 @@ What this file does:
 ;			(print c)
 ;			(print x)
 ;			(print y)
-			(setf (aref test x y) c)
+			(setf (aref test x y) c) ; THIS WAS WRONG BUT WE CHANGED ALL OTHER X's and Y's TO FIX IT
 ;			(print "here")
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 		(progn
@@ -191,7 +191,7 @@ What this file does:
 		(setf num-words 10)
 	); if num-words is not inputted into the parameter, then it is automatically 10
 	;; using loop do get random indexes - assume dictionary has 40 words
-	(let ((rand-num 0)))
+	;;(let ((rand-num 0)))
 	(loop for x from 0 to (min (- num-words 1) 39)
 	do(progn
 		(format t "hi from choose-words~%")
