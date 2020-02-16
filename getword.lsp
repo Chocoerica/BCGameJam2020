@@ -249,18 +249,6 @@ What this file does:
 			)
 		)
 	)
-
-	(print "there")
-	(loop for c across wordString
-		do (progn
-;			(print direction)
-;			(print c)
-;			(print x)
-;			(print y)
-			(setf (aref test x y) c) ; THIS WAS WRONG BUT WE CHANGED ALL OTHER X's and Y's TO FIX IT
-;			(print "here")
-		)
-	)
 	
 	;; VALIDATE IF OVERLAPPING HERE I GUESS BEFORE PRINTING ONTO THING
 	;;; should inc count2 and call func again
@@ -435,7 +423,7 @@ What this file does:
 		;;(format t "~a and rand num is ~a ~%" x rand-num)
 		
 		;; need to add test if fit function SEE MITCH's CODE 
-		(setf count 0)
+		(setf count2 0)
 		(if (check-word-fit (nth rand-num dictionary) ) ;; LATER SEE MITCH'S CODE
 			(push (nth rand-num dictionary) word-list) ; put in word-list
 		)  
