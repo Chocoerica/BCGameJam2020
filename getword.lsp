@@ -55,7 +55,7 @@ What this file does:
 	
 
 	(if (> count2 10)
-		(return-from check-word-fit)	
+		(return-from check-word-fit Nil)	
 	)
 	
 	
