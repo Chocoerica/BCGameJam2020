@@ -65,18 +65,19 @@
 
 	; Text
 	;; arr, wordlist = (gen-start)
-	(setf arr (make-array (list 10 10)) ); ERROR HEREEE
- 	(setf words (list 10))
-	(multiple-value-bind (arr words) (gen-start) )
+	;(setf arr (make-array (list 10 10)) )
+ 	;(setf words (list 10))
+	;(multiple-value-bind (arr words) (gen-start) )
+	(gen-start)
 	;;NEED TO DO: DISPLAY CHART + WORDLIST
-	(loop for yn from 0 to (- size 1)       
+	(loop for yn from 0 to 9       
 		do(progn
             (gamekit:draw-text (coerce yn 'string) (gamekit:vec2 (+ (* yn 20) 200) 925) :fill-color *color2*)     
 		)
 	)
-    (loop for yn from 0 to (- size 1)
+    (loop for yn from 0 to 0
 	do (progn
-        (loop for xn from 0 to (- size 1)
+        (loop for xn from 0 to 9
             do (progn
                 (if (eq nil(aref arr yn xn))
 					(gamekit:draw-text " " (gamekit:vec2 (+ (* yn 20) 200) (* xn 40)) :fill-color *color3*)

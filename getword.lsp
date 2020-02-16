@@ -501,8 +501,7 @@ What this file does:
 
 
 (defvar *words* (choose-words *word-dictionary* 8)) 
-;(rand-fill-in)
-
+;(rand-fill-in)test
 
 (princ "Welcome to the end of your existence")
 (terpri)

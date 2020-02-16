@@ -1,11 +1,10 @@
-;;; WHAT THIS FILE DOES:
+;;; WHAT THIS FILE MIGHT DO:
 ;; has function gen-start which generates an array of what is going to be on the grid
 ;; returns array and wordlist
 ;; 
-(in-package #:word-search)
-
-
+(setq *print-case* :downcase) ; all printed stuff will be lower case
 (setf *random-state* (make-random-state t)) ; set randomness
+
 (defvar *word-dictionary* (list "super" "good" "hello" "bear" "given" 
 							"regret" "crocs" "apple" "heart" "love"     
 							"wolf" "group" "monkeys" "challenge" "stress"
@@ -15,18 +14,47 @@
 							"friend" "everyone" "prevail" "pack" "compassion" 
 							"whylisp" "empathy" "suffer" "concern" "world" ) )
 
+
 (defvar size 10)
+
 (defvar count2 0)
 (defvar wordLength 0)
+(defvar test (make-array (list size size)))
+(defvar playing t)
+(defvar start 0)
+(defvar end 0)
 
+; this needs to be in a while forever loop with an escape condition
+(defun take_input() 
+    (princ "Enter starting coordinates in as a pair, ex (x y): ")
+    (setq start (read-from-string (read-line)))
 
-;---------------------------------------functions needed-----------------------------------------------
-(defun rand-fill-in(grid) ;;fills in non-nil index size by size grid with strings
+    (princ "Enter ending coordinates in as a pair, ex (x y): ")
+    (setq end (read-from-string (read-line)))
+
+    (if (or 
+        
+        (or (< (car start) 0) (>= (car start) size))
+        (or (< (second start ) 0) (>= (second start) size))
+
+        (or (< (car end) 0) (>= (car end) size))
+        (or (< (second end ) 0) (>= (second end) size) )
+        
+        )
+        ;; 0 <= start < size || 0 <= end < size
+        (progn  (princ "Invalid input >:( ......Try again")
+                (terpri)
+                (take_input)
+        )
+    )
+)
+
+(defun rand-fill-in() ;;fills in non-nil index size by size grid with strings
 	(loop for x from 0 to (- size 1)
 		do (loop for y from 0 to (- size 1)
 			do (progn
-				(if (eq nil (aref grid y x))
-					(setf (aref grid y x) (string(code-char (+ (random 25) 97))) )
+				(if (eq nil (aref test y x))
+					(setf (aref test y x) (string(code-char (+ (random 25) 97))) )
 				)
 			)
 		)
@@ -58,7 +86,7 @@
 )
 
 ;; CHECK-COORDS FUNCTION HERE
-(defun check-coords (grid x1 y1 x2 y2 &optional word-list)
+(defun check-coords (x1 y1 x2 y2 &optional word-list)
 	;;first check if coordinates are in a straight line
 	(if (or (eq x1 x2) (eq y1 y2) (eq (abs (- x2 x1)) (abs (- y2 y1))) )
 	;; if (x1 == x2) or (y1 == y2) or (abs(x1-x2) == abs(y1-y2)) then it works
@@ -71,7 +99,7 @@
 					do(progn
 						;; (format t "col-num is: ~a row-num is: ~a ~%" col-num row-num)
 						;; for each of loop -> collect current character, and add to string
-						(setf new-word (concatenate 'string new-word (aref grid row-num col-num )))
+						(setf new-word (concatenate 'string new-word (aref test row-num col-num )))
 						(if (> (- x2 col-num) 0) (setq col-num (+ col-num 1)))
 						(if (< (- x2 col-num) 0) (setq col-num (- col-num 1)))
 						(if (> (- y2 row-num) 0) (setq row-num (+ row-num 1)))
@@ -116,7 +144,7 @@
 	)
 )
 
-(defun check-word-fit(grid wordString);check-word-fit given word to fit in, etc. CHECK MITCH CODE
+(defun check-word-fit(wordString);check-word-fit given word to fit in, etc. CHECK MITCH CODE
 ;; if word fits, put it in grid
 ;; returns bool of if it was successful or not
 	;; (format t "count is ~a ~%" count2)
@@ -138,7 +166,6 @@
 	;(setf (aref make-array 2 4) "1")
 	;(terpri)
 
-	
 
 	(if (> count2 10)
 		(return-from check-word-fit nil)	
@@ -153,7 +180,7 @@
 				(progn
 					(print "This is bad 1") 
 					(setf count2 (+ count2 1))
-					(return-from check-word-fit (check-word-fit grid wordString))
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
@@ -167,7 +194,7 @@
 				(progn
 					(print "This is bad 2")
 					(setf count2 (+ count2 1))
-					(return-from check-word-fit (check-word-fit grid wordString))
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
@@ -181,7 +208,7 @@
 				(progn
 					(print "This is bad 3")
 					(setf count2 (+ count2 1))
-					(return-from check-word-fit (check-word-fit grid wordString))
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
@@ -195,21 +222,21 @@
 				(progn
 					(print "This is bad 4")
 					(setf count2 (+ count2 1))
-					(return-from check-word-fit (check-word-fit grid wordString))
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
 	)
-
+	
 	(let ((x1 x) (y1 y))
 		(loop for i from 0 to (- wordLength 1)
-			do (progn (if (not (eq (aref grid x1 y1) nil))
+			do (progn (if (not (eq (aref test x1 y1) nil))
 				; intersection will occur disallow
 				(progn
 					(princ "INTERSECTION!!!!")
 					(format t "~%x is ~A ~%y is ~A~%" x1 y1)
 					(incf count2 1)
-					(return-from check-word-fit (check-word-fit grid wordString))
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 
@@ -253,7 +280,7 @@
 ;			(print c)
 ;			(print x)
 ;			(print y)
-			(setf (aref grid x y) c)
+			(setf (aref test x y) c)
 ;			(print "here")
 			(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 				(progn
@@ -284,8 +311,18 @@
 			)
 		)
 	) ;; loop ends here
+
+	;; (write test)
+	;(setq ((wordLength)(length wordString))
+
+	;; ;(print wordLength)
+	;; ;(print direction)
+	;; ;(print x)
+	;; ;(print y)
 	(return-from check-word-fit t)
 )
+
+;;----------------------------
 
 (defun remove-word (index list)
 	(if (zerop index)(cdr list) 
@@ -293,7 +330,8 @@
 	)
 )
 
-(defun choose-words (grid dictionary &optional num-words) 
+;; Start function
+(defun choose-words (dictionary &optional num-words) 
 	;;given a list of 40 words, returns a list of num-words words
 	;; calls on check-word-fit for every word to see if it fits
 	;; uses remove-word
@@ -316,7 +354,7 @@
 		
 		;; need to add test if fit function SEE MITCH's CODE 
 		(setf count2 0)
-		(if (check-word-fit grid (nth rand-num dictionary) ) ;; LATER SEE MITCH'S CODE
+		(if (check-word-fit (nth rand-num dictionary) ) ;; LATER SEE MITCH'S CODE
 			(push (nth rand-num dictionary) word-list) ; put in word-list
 		)  
 		
@@ -331,16 +369,60 @@
 	(setq word-list word-list)
 )
 
-(defun gen-start ()
-    (let ((grid (make-array (list size size))))
-    (defvar words (choose-words grid *word-dictionary* 8)) 
-    (format t "OwO defvar words doneeee~%")
-    (dolist (ww words) (format t "~a " ww)) ; test print
-		(format t "~%") ; test print
-    )
-    ;(rand-fill-in grid)
-    (return-from gen-start (values grid words))
-    )
-    
+(defun print-grid (grid &optional *words*) ;;fills in non-nil index size by size grid with strings
+	(format t "~%~%WORDS to find: " )
+			(dolist (ww *words*) (format t "~a " ww)) ; print words
+			(format t "~%")
+	(format t "  ")
+	(loop for y from 0 to (- size 1)
+		do(progn
+			(format t "~a " y)
+		)
+	)
+	(format t "~%")
+	(loop for y from 0 to (- size 1)
+		do (progn
+			(format t "~a " y)
+			(loop for x from 0 to (- size 1)
+				do (progn
+					(if (eq nil(aref grid y x)) 
+						(format t "  ") 
+						(format t "~a "(aref grid y x))
+					)
+				)
+			)
+		)
+		(format t "~%")
+	)
 )
 
+(defun gen-start()
+    (defvar *words* (choose-words *word-dictionary* 8)) 
+    ;(rand-fill-in)test
+
+    (princ "Welcome to the end of your existence")
+    (terpri)
+    (princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
+    (terpri)
+    (princ "Enter \"q\" w/o the quotes to exist the game")
+    (terpri)
+    (princ "Enter Y to begin..............")
+    (read)
+
+    (loop 
+        (progn
+            ; print board
+            (print-grid test)
+            (terpri)
+
+            ; take input
+            (take_input)
+
+            ; verify
+            (if (not (eq (length *words*) 0))
+                (setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
+                ;(dolist (ww *words*) (format t "~a " ww)) ; print words
+            )
+        )
+    )
+)
