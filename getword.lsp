@@ -29,18 +29,9 @@ What this file does:
 (defvar count2 0)
 (defvar wordLength 0)
 (defvar test (make-array (list size size)))
-
-; ============================== Init Game System ====================================
-
-; print out instructions and wait for signal to start
-(princ "Welcome to the end of you existence")
-(terpri)
-(princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
-(terpri)
-(princ "Enter Y to begin..............")
-(read)
-
-
+(defvar playing t)
+(defvar start 0)
+(defvar end 0)
 
 ; this needs to be in a while forever loop with an escape condition
 (defun take_input() 
@@ -67,15 +58,12 @@ What this file does:
     )
 )
 
-; ====================================================================================
-
-(defun rand-fill-in (grid size) ;;fills in non-nil index size by size grid with strings
-;; NEED TO CALL
-	(loop for x from 0 to size
-		do (loop for y from 0 to size
+(defun rand-fill-in() ;;fills in non-nil index size by size grid with strings
+	(loop for x from 0 to (- size 1)
+		do (loop for y from 0 to (- size 1)
 			do (progn
-				(if (eq nil (aref grid y x))
-					(setf (aref grid y x) (string(code-char (+ (random 25) 97))) )
+				(if (eq nil (aref test y x))
+					(setf (aref test y x) (string(code-char (+ (random 25) 97))) )
 				)
 			)
 		)
@@ -120,7 +108,7 @@ What this file does:
 					do(progn
 						(format t "col-num is: ~a row-num is: ~a ~%" col-num row-num)
 						;; for each of loop -> collect current character, and add to string
-						(setf new-word (concatenate 'string new-word (aref grid row-num col-num )))
+						(setf new-word (concatenate 'string new-word (aref test row-num col-num )))
 						(if (> (- x2 col-num) 0) (setq col-num (+ col-num 1)))
 						(if (< (- x2 col-num) 0) (setq col-num (- col-num 1)))
 						(if (> (- y2 row-num) 0) (setq row-num (+ row-num 1)))
@@ -350,7 +338,7 @@ What this file does:
 ;			(print c)
 ;			(print x)
 ;			(print y)
-			(setf (aref test x y) c)
+			(setf (aref test x y) (string c))
 ;			(print "here")
 			(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 				(progn
@@ -382,7 +370,7 @@ What this file does:
 		)
 	) ;; loop ends here
 
-	(write test)
+	;; (write test)
 	;(setq ((wordLength)(length wordString))
 
 	;(print wordLength)
@@ -439,20 +427,32 @@ What this file does:
 	(setq word-list word-list)
 )
 
-;;------------------------------test-------------------------------------
-(format t "running choose-words~%"); test
-(dolist (word *word-dictionary*)
-	(format t "~a, " word)
-);test list is passed through
-(format t "~%~%")
-;;-------------------------------------------------------------------------
-
-;(defvar *words* (choose-words *word-dictionary*)) 
 (defvar *words* (choose-words *word-dictionary* 5)) 
-(format t "~%~% words are: ~a~%" *words*)
+(rand-fill-in)
 
-#||
-(defvar *words* (remove-word 5 *word-dictionary*)) 
-(format t "~%~% word is: ~a~%" (nth 5 *word-dictionary*))
 
-||#
+(princ "Welcome to the end of your existence")
+(terpri)
+(princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
+(terpri)
+(princ "Enter \"q\" w/o the quotes to exist the game")
+(terpri)
+(princ "Enter Y to begin..............")
+(read)
+
+(loop 
+	(progn
+		; print board
+		(write test)
+		(terpri)
+
+		; take input
+		(take_input)
+
+		; verify
+		(if (not (eq (length *words*) 0))
+			(setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
+		)
+	)
+
+)
