@@ -156,21 +156,21 @@ What this file does:
 (defun check-word-fit(wordString);check-word-fit given word to fit in, etc. CHECK MITCH CODE
 ;; if word fits, put it in grid
 ;; returns bool of if it was successful or not
-	(format t "count is ~a ~%" count2)
+	;; (format t "count is ~a ~%" count2)
 	;(defvar wordString "This")
 ;	(print "Count =")
 ;	(print count)
 	;(defvar direction (random 8))
 	(setf direction (random 7))
 	
-	(print wordString)
+	;; (print wordString)
 	(setf x (random size))	
 	(setf y (random size))	
 	(setf wordLength (length wordString))
-	(print wordLength)
-	(format t "~%x-coord(y) = ~A~%" y)
-	(format t "y-coord(x) = ~A~%" x)
-	(format t "direction = ~A~%" direction)
+	;; (print wordLength)
+	;; (format t "~%x-coord(y) = ~A~%" y)
+	;; (format t "y-coord(x) = ~A~%" x)
+	;; (format t "direction = ~A~%" direction)
 	;(write (make-array (list size size) :initial-element '0))
 	;(setf (aref make-array 2 4) "1")
 	;(terpri)
@@ -184,11 +184,11 @@ What this file does:
 	
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 		(progn
-			(format t "direction = ~A~%" direction)
-			(format t "x end is ~d~%" (- x wordLength))
+			;; (format t "direction = ~A~%" direction)
+			;; (format t "x end is ~d~%" (- x wordLength))
 			(if(> -1 (- x wordLength))
 				(progn
-					(print "This is bad 1") 
+					;; (print "This is bad 1") 
 					(setf count2 (+ count2 1))
 					(return-from check-word-fit (check-word-fit wordString))
 				)
@@ -198,11 +198,11 @@ What this file does:
 	
 	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
 		(progn
-			(format t "direction = ~A~%" direction)
-			(format t "y end is ~d~%" (- y wordLength))
+			;; (format t "direction = ~A~%" direction)
+			;; (format t "y end is ~d~%" (- y wordLength))
 			(if(> -1 (- y wordLength))
 				(progn
-					(print "This is bad 2")
+					;; (print "This is bad 2")
 					(setf count2 (+ count2 1))
 					(return-from check-word-fit (check-word-fit wordString))
 				)
@@ -212,11 +212,11 @@ What this file does:
 
 	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down
 		(progn
-			(format t "direction = ~A~%" direction)
-			(format t "x2 end is ~d~%" (+ x wordLength))
+			;; (format t "direction = ~A~%" direction)
+			;; (format t "x2 end is ~d~%" (+ x wordLength))
 			(if(< size (+ x wordLength))
 				(progn
-					(print "This is bad 3")
+					;; (print "This is bad 3")
 					(setf count2 (+ count2 1))
 					(return-from check-word-fit (check-word-fit wordString))
 				)
@@ -226,11 +226,11 @@ What this file does:
 
 	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
 		(progn
-			(format t "direction = ~A~%" direction)
-			(format t "y2 end is ~d~%" (+ y wordLength))
+			;; (format t "direction = ~A~%" direction)
+			;; (format t "y2 end is ~d~%" (+ y wordLength))
 			(if(< size (+ y wordLength))
 				(progn
-					(print "This is bad 4")
+					;; (print "This is bad 4")
 					(setf count2 (+ count2 1))
 					(return-from check-word-fit (check-word-fit wordString))
 				)
@@ -251,8 +251,8 @@ What this file does:
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
-								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
+								;; (princ "INTERSECTION!!!!")
+								;; (format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
@@ -273,8 +273,8 @@ What this file does:
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
-								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
+								;; (princ "INTERSECTION!!!!")
+								;; (format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
@@ -295,8 +295,8 @@ What this file does:
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
-								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
+								;; (princ "INTERSECTION!!!!")
+								;; (format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
@@ -317,8 +317,8 @@ What this file does:
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
-								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
+								;; (princ "INTERSECTION!!!!")
+								;; (format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
@@ -331,7 +331,7 @@ What this file does:
 		)
 	)
 
-	(print "there")
+	;; (print "there")
 	(loop for c across wordString
 		do (progn
 ;			(print direction)
@@ -398,7 +398,7 @@ What this file does:
 	
 	(defvar word-list (list))
 	(dolist (ww word-list) (format t "~a " ww)) ; test print
-	(format t "~%") ; test print
+	;; (format t "~%") ; test print
 	(if (eq num-words nil)
 		(setf num-words 10)
 	); if num-words is not inputted into the parameter, then it is automatically 10
@@ -406,7 +406,7 @@ What this file does:
 	;;(let ((rand-num 0)))
 	(loop for x from 0 to (min (- num-words 1) 39)
 	do(progn
-		(format t "hi from choose-words~%")
+		;; (format t "hi from choose-words~%")
 		(setq rand-num (random (- 41 x))) ; sets number to be from 0 to 39-x (0 to 39 first)
 		;;(format t "~a and rand num is ~a ~%" x rand-num)
 		
@@ -418,12 +418,12 @@ What this file does:
 		
 		;;get word using index, then remove it from local list
 		(setq dictionary (remove-word rand-num dictionary))
-		(format t "dictionary now ~a~%" dictionary) ;test
+		;; (format t "dictionary now ~a~%" dictionary) ;test
 		;; now dictionary has had removed thingy
-		(dolist (ww word-list) (format t "~a " ww)) ; test print
-		(format t "~%") ; test print
+		;; (dolist (ww word-list) (format t "~a " ww)) ; test print
+		;; (format t "~%") ; test print
 	))
-	(format t "finish loop ~%")
+	;; (format t "finish loop ~%")
 	(setq word-list word-list)
 )
 
