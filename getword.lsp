@@ -239,98 +239,6 @@ What this file does:
 	)
 	
 	;; VALIDATE IF OVERLAPPING HERE I GUESS BEFORE PRINTING ONTO THING
-	;;; should inc count2 and call func again
-	; for each of these it'll loop through length of word and check if 
-	; space is empty or not, if not nil then fail
-
-	;; (if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
-	;; 	(progn
-	;; 		(let ((x1 x) (y1 y))
-	;; 			(loop for i from 0 to (- wordLength 1)
-	;; 				do (progn
-	;; 					(if (not (eq (aref test x1 y1) nil))
-	;; 						; intersection will occur disallow
-	;; 						(progn
-	;; 							(princ "INTERSECTION!!!!")
-	;; 							(format t "~%x is ~A ~%y is ~A~%" x1 y1)
-	;; 							(incf count2 1)
-	;; 							(return-from check-word-fit (check-word-fit wordString))
-	;; 						)
-	;; 					)
-	;; 					(setf x1 (- x1 1))
-	;; 				)
-	;; 			)
-	;; 		)
-
-	;; 	)
-	;; )
-
-	;; (if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
-	;; 	(progn
-	;; 		(let ((x1 x) (y1 y))
-	;; 			(loop for i from 0 to (- wordLength 1)
-	;; 				do (progn
-	;; 					(if (not (eq (aref test x1 y1) nil))
-	;; 						; intersection will occur disallow
-	;; 						(progn
-	;; 							(princ "INTERSECTION!!!!")
-	;; 							(format t "~%x is ~A ~%y is ~A~%" x1 y1)
-	;; 							(incf count2 1)
-	;; 							(return-from check-word-fit (check-word-fit wordString))
-	;; 						)
-	;; 					)
-	;; 					(setf y1 (- y1 1))
-	;; 				)
-	;; 			)
-	;; 		)
-
-	;; 	)
-	;; )
-
-	;; (if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
-	;; 	(progn
-	;; 		(let ((x1 x) (y1 y))
-	;; 			(loop for i from 0 to (- wordLength 1)
-	;; 				do (progn
-	;; 					(if (not (eq (aref test x1 y1) nil))
-	;; 						; intersection will occur disallow
-	;; 						(progn
-	;; 							(princ "INTERSECTION!!!!")
-	;; 							(format t "~%x is ~A ~%y is ~A~%" x1 y1)
-	;; 							(incf count2 1)
-	;; 							(return-from check-word-fit (check-word-fit wordString))
-	;; 						)
-	;; 					)
-	;; 					(setf x1 (+ x1 1))
-	;; 				)
-	;; 			)	
-	;; 		)
-
-	;; 	)
-	;; )
-
-	;; (if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
-	;; 	(progn
-	;; 		(let ((x1 x) (y1 y))
-	;; 			(loop for i from 0 to (- wordLength 1)
-	;; 				do (progn
-	;; 					(if (not (eq (aref test x1 y1) nil))
-	;; 						; intersection will occur disallow
-	;; 						(progn
-	;; 							(princ "INTERSECTION!!!!")
-	;; 							(format t "~%x is ~A ~%y is ~A~%" x1 y1)
-	;; 							(incf count2 1)
-	;; 							(return-from check-word-fit (check-word-fit wordString))
-	;; 						)
-	;; 					)
-	;; 					(setf y1 (+ y1 1))
-	;; 				)
-	;; 			)
-	;; 		)
-
-	;; 	)
-	;; )
-
 	(let ((x1 x) (y1 y))
 		(loop for i from 0 to (- wordLength 1)
 			do (progn (if (not (eq (aref test x1 y1) nil))
@@ -383,7 +291,7 @@ What this file does:
 ;			(print c)
 ;			(print x)
 ;			(print y)
-			(setf (aref test x y) c)
+			(setf (aref test x y) (string c))
 ;			(print "here")
 			(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 				(progn
@@ -501,7 +409,7 @@ What this file does:
 
 
 (defvar *words* (choose-words *word-dictionary* 8)) 
-;(rand-fill-in)
+(rand-fill-in)
 
 
 (princ "Welcome to the end of your existence")
@@ -516,7 +424,7 @@ What this file does:
 (loop 
 	(progn
 		; print board
-		(print-grid test)
+		(print-grid test *words*)
 		(terpri)
 
 		; take input
