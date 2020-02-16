@@ -8,12 +8,13 @@ otherwise return original worldlist
 ;;Global stuffs
 (setq *print-case* :downcase) ; all printed stuff will be lower case
 (setf *random-state* (make-random-state t)) ; set randomness
-(defvar grid (make-array (list 5 5)))
+(defvar size 10)
+(defvar grid (make-array (list size size)))
 
 ;;kinda new stuff - if not nil, fill in with random
 (defun rand-fill-in (grid size) ;;fills in non-nil index size by size grid with strings
-	(loop for x from 0 to size
-		do (loop for y from 0 to size
+	(loop for x from 0 to (- size 1)
+		do (loop for y from 0 to (- size 1)
 			do (progn
 				(if (eq nil (aref grid y x))
 					(setf (aref grid y x) (string(code-char (+ (random 25) 97))) )
@@ -22,10 +23,31 @@ otherwise return original worldlist
 		)
 	)
 )
-(write grid)
-(format t "~%")
+
+(defun print-grid (grid) ;;fills in non-nil index size by size grid with strings
+	(format t "  ")
+	(loop for x from 0 to (- size 1)
+		do(progn
+			(format t "~a " x)
+		)
+	)
+	(format t "~%")
+	(loop for x from 0 to (- size 1)
+		do (progn
+			(format t "~a " x)
+			(loop for y from 0 to (- size 1)
+				do (progn
+					(format t "~a "(aref grid y x))
+				)
+			)
+		)
+		(format t "~%")
+	)
+)
 
 
+
+;;-----------------------------------funcs--------------------------------
 (defun remove-word (index list)
 	(if (zerop index)(cdr list) 
 		(cons (car list) (remove-word (1- index) (cdr list)))
@@ -126,5 +148,9 @@ otherwise return original worldlist
 							"feel" "someone" "glory" "guts" "circle"      
 							"friend" "everyone" "prevail" "pack" "pompassion" 
 							"whylisp" "empathy" "suffering" "concern" "world" "mwb") )
-
+(rand-fill-in grid size)
 (check-coords 2 2 0 0 *word-dictionary*)
+(print-grid grid)
+(format t "~%")
+(write grid)
+(format t "~%")
