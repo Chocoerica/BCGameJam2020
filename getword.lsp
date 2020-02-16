@@ -161,7 +161,8 @@ What this file does:
 ;			(print y)
 			(setf (aref test x y) c) ; THIS WAS WRONG BUT WE CHANGED ALL OTHER X's and Y's TO FIX IT
 ;			(print "here")
-
+		)
+	)
 	
 	;; VALIDATE IF OVERLAPPING HERE I GUESS BEFORE PRINTING ONTO THING
 	;;; should inc count2 and call func again
