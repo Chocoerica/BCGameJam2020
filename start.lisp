@@ -1,7 +1,9 @@
 ;;; WHAT THIS FILE MIGHT DO:
-;; has function gen-start which generates an array of what is going to be on the grid
-;; returns array and wordlist
-;; 
+;; idk
+
+(in-package #:word-search)
+
+
 (setq *print-case* :downcase) ; all printed stuff will be lower case
 (setf *random-state* (make-random-state t)) ; set randomness
 
@@ -19,7 +21,7 @@
 
 (defvar count2 0)
 (defvar wordLength 0)
-(defvar test (make-array (list size size)))
+(defvar *test* (make-array (list size size)))
 (defvar playing t)
 (defvar start 0)
 (defvar end 0)
@@ -53,8 +55,8 @@
 	(loop for x from 0 to (- size 1)
 		do (loop for y from 0 to (- size 1)
 			do (progn
-				(if (eq nil (aref test y x))
-					(setf (aref test y x) (string(code-char (+ (random 25) 97))) )
+				(if (eq nil (aref *test* y x))
+					(setf (aref *test* y x) (string(code-char (+ (random 25) 97))) )
 				)
 			)
 		)
@@ -99,7 +101,7 @@
 					do(progn
 						;; (format t "col-num is: ~a row-num is: ~a ~%" col-num row-num)
 						;; for each of loop -> collect current character, and add to string
-						(setf new-word (concatenate 'string new-word (aref test row-num col-num )))
+						(setf new-word (concatenate 'string new-word (aref *test* row-num col-num )))
 						(if (> (- x2 col-num) 0) (setq col-num (+ col-num 1)))
 						(if (< (- x2 col-num) 0) (setq col-num (- col-num 1)))
 						(if (> (- y2 row-num) 0) (setq row-num (+ row-num 1)))
@@ -230,7 +232,7 @@
 	
 	(let ((x1 x) (y1 y))
 		(loop for i from 0 to (- wordLength 1)
-			do (progn (if (not (eq (aref test x1 y1) nil))
+			do (progn (if (not (eq (aref *test* x1 y1) nil))
 				; intersection will occur disallow
 				(progn
 					(princ "INTERSECTION!!!!")
@@ -280,7 +282,7 @@
 ;			(print c)
 ;			(print x)
 ;			(print y)
-			(setf (aref test x y) c)
+			(setf (aref *test* x y) c)
 ;			(print "here")
 			(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 				(progn
@@ -396,11 +398,8 @@
 	)
 )
 
-(defun gen-start()
-    (defvar *words* (choose-words *word-dictionary* 8)) 
-    ;(rand-fill-in)test
-
-    (princ "Welcome to the end of your existence")
+(defun idk()
+	(princ "Welcome to the end of your existence")
     (terpri)
     (princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
     (terpri)
@@ -408,11 +407,10 @@
     (terpri)
     (princ "Enter Y to begin..............")
     (read)
-
-    (loop 
+	(loop 
         (progn
             ; print board
-            (print-grid test)
+            (print-grid *test*)
             (terpri)
 
             ; take input
@@ -426,3 +424,92 @@
         )
     )
 )
+
+(defun gen-start()
+    (defvar *words* (choose-words *word-dictionary* 8)) 
+    (rand-fill-in)
+)
+
+
+//----------------GAME STUFFS------------------------------------------------------------------------------------------------
+;;; global states needed
+(defvar *canvas-w* 1000)
+(defvar *canvas-h* 950)
+(defvar *click* nil) ;t when mouse is being pressed, nil otherwise
+(defvar *color1* (gamekit:vec4 0 0 0 1)) ;for drawing
+(defvar *color2* (gamekit:vec4 0.1 0.3 0.9 0.5))
+(defvar *color3* (gamekit:vec4 0.8 0.8 0.8 0.5))
+;;;
+;;; Main Class to run game
+
+(gamekit:defgame word-search()()
+	(:viewport-width *canvas-w*)
+	(:viewport-height *canvas-h*)
+	(:viewport-title "Word Search Game")
+
+)
+
+;;; Bindings
+(defmethod gamekit:post-initialize ((app word-search))
+	(gamekit:bind-button :mouse-left :pressed
+				(lambda () (setf *click* t)))
+	(gamekit:bind-button :mouse-left :released 
+				(lambda () (setf *click* nil)))
+	(gamekit:bind-cursor(lambda(x y)
+				(when *click*
+				;; put x, y position into doing something here - translate into input of currfile
+				;; INPUT GOES IN HERE 
+				)))
+
+	(gamekit:bind-button :q :pressed (lambda () 
+					;quit function
+					(gamekit:stop)
+					))
+
+	;; MAKE BOARD WHEN INITIALIZE
+	(gen-start) ; get *words* and *test* as global variables
+
+)
+
+;;Drawing Game Board
+(defmethod gamekit:draw((app word-search))
+	;do all drawing stuff inside here --> AT START OF GAME
+	(gamekit:draw-rect (gamekit:vec2 0 0) 1000 1000 :fill-paint *color1* :stroke-paint nil) ;background black
+	(gamekit:draw-rect (gamekit:vec2 200 300) 600 600 :fill-paint nil :stroke-paint *color2*) ;draw 10 by 10 grid
+
+	;grid lines
+	(loop for i from 0 to 8
+		do(progn
+			( let ((n (+ (* 60 i) 300)))
+				(gamekit:draw-line (gamekit:vec2 n 300) (gamekit:vec2 n 900) *color2*)
+			)
+			( let ((n (+ (* 60 i) 400)))
+				(gamekit:draw-line (gamekit:vec2 200 n) (gamekit:vec2 800 n) *color2*)
+			)
+		)
+	)
+
+	;get letters from global variables *words* and *test*
+	;; get (aref grid x y)?
+
+	(loop for y from 0 to 9
+		do (progn
+			(format t "~a " y)
+			(loop for x from 0 to 9
+				do (progn
+					(gamekit:draw-text (aref *test* x y) (gamekit:vec2 (+ (* x 60) 200) (+ (y 60) 200) ) :fill-color *color2*)
+				)
+			)
+		)
+		(format t "~%")
+	)
+
+
+
+
+ 	;;---------------------------------
+	(gamekit:draw-text "WORD SEARCH: made from LISP" (gamekit:vec2 250 925) :fill-color *color3*) ; title
+	
+	(gamekit:draw-text "By: Keepers of the Parentheses" (gamekit:vec2 500 125) :fill-color *color3*) ; group name
+
+ )
