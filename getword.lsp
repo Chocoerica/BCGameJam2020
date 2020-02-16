@@ -409,12 +409,8 @@ What this file does:
 
 
 (defvar *words* (choose-words *word-dictionary* 8)) 
-<<<<<<< HEAD
 (rand-fill-in)
 
-=======
-;(rand-fill-in)test
->>>>>>> evtest
 
 (princ "Welcome to the end of your existence")
 (terpri)
