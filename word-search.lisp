@@ -53,6 +53,13 @@
   (gamekit:draw-line (gamekit:vec2 500 300) (gamekit:vec2 500 900) *color2*) 
   (gamekit:draw-line (gamekit:vec2 600 300) (gamekit:vec2 600 900) *color2*) 
   (gamekit:draw-line (gamekit:vec2 700 300) (gamekit:vec2 700 900) *color2*) 
+	;vertical lines above, and now horizontal lines below
+	(gamekit:draw-line (gamekit:vec2 200 400) (gamekit:vec2 800 400) *color2*) 
+	(gamekit:draw-line (gamekit:vec2 200 500) (gamekit:vec2 800 500) *color2*) 
+	(gamekit:draw-line (gamekit:vec2 200 600) (gamekit:vec2 800 600) *color2*) 
+	(gamekit:draw-line (gamekit:vec2 200 700) (gamekit:vec2 800 700) *color2*) 
+	(gamekit:draw-line (gamekit:vec2 200 800) (gamekit:vec2 800 800) *color2*) 
+
   
 	
  )
