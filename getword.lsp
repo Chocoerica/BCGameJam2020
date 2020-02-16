@@ -29,6 +29,7 @@ What this file does:
 (defvar count2 0)
 (defvar wordLength 0)
 (defvar test (make-array (list size size)))
+(defvar greenColour (make-array (list size size)))
 (defvar playing t)
 (defvar start 0)
 (defvar end 0)
@@ -131,9 +132,48 @@ What this file does:
 							; return wordlist without that thing at index i
 							(if (not (eq nil index))
 								(progn
+									(write x1)
+									(write x2)
+									(write y1)
+									(write y2)
+									(if (< x1 x2)
+										(progn
+											(setf xMin x1)
+											(setf xMax x2)
+										)
+										(progn
+											(setf xMin x2)
+											(setf xMax x1)
+										)
+									)
+									(if (< y1 y2)
+										(progn
+											(setf yMin y1)
+											(setf yMax y2)
+										)
+										(progn
+											(setf yMin y2)
+											(setf yMax y1)
+										)
+									)
+									(loop for x from xMin to xMax
+										do(progn
+											(loop for y from yMin to yMax
+												do(progn
+													(write "hello")
+													(setf (aref greenColour x y) 1 )
+												)
+											)
+										)				
+									)
 									(let ((new-word-list (remove-word index word-list)))
 										(return-from check-coords new-word-list)
 									)
+								
+									;DO SOMETHING OKAY??????
+								
+									
+
 								)
 								(return-from check-coords word-list)
 							)
@@ -398,18 +438,26 @@ What this file does:
 			(format t "~c[37m~A~c[0m" #\ESC y #\ESC) ;Left side coordinate reference bar
 			(loop for x from 0 to (- size 1)
 				do (progn
-					(if (eq nil(aref grid y x)) 
-						(format t "  ") 
-						;(format t "~a "(aref grid y x))
-						(if something happpens
-						(format t "~c[32m~A ~c[0m" #\ESC (aref grid y x) #\ESC)
-						
+					(if (eq nil(aref grid y x))
+						;(progn 
+							(format t "  ") 
+							(progn
+							(if (eq (aref greenColour x y) 1)
+								(format t "~c[32m~A ~c[0m" #\ESC (aref grid y x) #\ESC)
+							)
+							(if (eq (aref greenColour x y) nil)
+								(format t "~a "(aref grid y x))
+							)
+							)
+						;)
 					)
 				)
 			)
 		)
 		(format t "~%")
 	)
+
+	(write greenColour)
 )
 
 
