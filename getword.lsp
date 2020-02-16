@@ -151,11 +151,23 @@ What this file does:
 			)
 		)
 	)
+
+	(print "there")
+	(loop for c across wordString
+		do (progn
+;			(print direction)
+;			(print c)
+;			(print x)
+;			(print y)
+			(setf (aref test x y) c) ; THIS WAS WRONG BUT WE CHANGED ALL OTHER X's and Y's TO FIX IT
+;			(print "here")
+
 	
 	;; VALIDATE IF OVERLAPPING HERE I GUESS BEFORE PRINTING ONTO THING
 	;;; should inc count2 and call func again
 	; for each of these it'll loop through length of word and check if 
 	; space is empty or not, if not nil then fail
+
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 		(progn
 			(let ((x1 x) (y1 y))
@@ -316,7 +328,7 @@ What this file does:
 		(setf num-words 10)
 	); if num-words is not inputted into the parameter, then it is automatically 10
 	;; using loop do get random indexes - assume dictionary has 40 words
-	(let ((rand-num 0)))
+	;;(let ((rand-num 0)))
 	(loop for x from 0 to (min (- num-words 1) 39)
 	do(progn
 		(format t "hi from choose-words~%")
