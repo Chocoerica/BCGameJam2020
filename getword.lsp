@@ -27,7 +27,7 @@ What this file does:
 (defvar size 10)
 
 (defvar count2 0)
-
+(defvar wordLength 0)
 (defvar test (make-array (list size size)))
 
 (defun check-word-fit(wordString);check-word-fit given word to fit in, etc. CHECK MITCH CODE
@@ -43,9 +43,9 @@ What this file does:
 	(print wordString)
 	(setf x (random size))	
 	(setf y (random size))	
-	(defvar wordLength (length wordString))
-	
-	(format t "x-coord(y) = ~A~%" y)
+	(setf wordLength (length wordString))
+	(print wordLength)
+	(format t "~%x-coord(y) = ~A~%" y)
 	(format t "y-coord(x) = ~A~%" x)
 	(format t "direction = ~A~%" direction)
 	;(write (make-array (list size size) :initial-element '0))
@@ -55,7 +55,7 @@ What this file does:
 	
 
 	(if (> count2 10)
-		(return-from check-word-fit Nil)	
+		(return-from check-word-fit nil)	
 	)
 	
 	
@@ -67,8 +67,7 @@ What this file does:
 				(progn
 					(print "This is bad 1") 
 					(setf count2 (+ count2 1))
-					(check-word-fit wordString)
-					(return-from check-word-fit)
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
@@ -82,8 +81,7 @@ What this file does:
 				(progn
 					(print "This is bad 2")
 					(setf count2 (+ count2 1))
-					(check-word-fit wordString)
-					(return-from check-word-fit)
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
@@ -97,8 +95,7 @@ What this file does:
 				(progn
 					(print "This is bad 3")
 					(setf count2 (+ count2 1))
-					(check-word-fit wordString)
-					(return-from check-word-fit)
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
@@ -112,8 +109,7 @@ What this file does:
 				(progn
 					(print "This is bad 4")
 					(setf count2 (+ count2 1))
-					(check-word-fit wordString)
-					(return-from check-word-fit)
+					(return-from check-word-fit (check-word-fit wordString))
 				)
 			)
 		)
@@ -126,13 +122,13 @@ What this file does:
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 		(progn
 			(let ((x1 x) (y1 y))
-				(loop for i from 0 to wordLength
+				(loop for i from 0 to (- wordLength 1)
 					do (progn
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
 								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
@@ -148,13 +144,13 @@ What this file does:
 	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
 		(progn
 			(let ((x1 x) (y1 y))
-				(loop for i from 0 to wordLength
+				(loop for i from 0 to (- wordLength 1)
 					do (progn
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
 								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
@@ -170,13 +166,13 @@ What this file does:
 	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
 		(progn
 			(let ((x1 x) (y1 y))
-				(loop for i from 0 to wordLength
+				(loop for i from 0 to (- wordLength 1)
 					do (progn
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
 								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
@@ -192,13 +188,13 @@ What this file does:
 	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
 		(progn
 			(let ((x1 x) (y1 y))
-				(loop for i from 0 to wordLength
+				(loop for i from 0 to (- wordLength 1)
 					do (progn
 						(if (not (eq (aref test x1 y1) nil))
 							; intersection will occur disallow
 							(progn
 								(princ "INTERSECTION!!!!")
-								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(format t "~%x is ~A ~%y is ~A~%" x1 y1)
 								(incf count2 1)
 								(return-from check-word-fit (check-word-fit wordString))
 							)
