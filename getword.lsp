@@ -129,35 +129,35 @@ What this file does:
 ;			(print y)
 			(setf (aref test x y) c)
 ;			(print "here")
-	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
-		(progn
-;		(print "if one")
-			(setf x (- x 1))
-		)
-	)
+			(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
+				(progn
+		;		(print "if one")
+					(setf x (- x 1))
+				)
+			)
 
-	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
-		(progn
-;		(print "if two")
-		(setf y (- y 1))
-		)
-	)
+			(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
+				(progn
+		;		(print "if two")
+				(setf y (- y 1))
+				)
+			)
 
-	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
-		(progn
-;		(print "If three")
-			(setf x (+ x 1))
-		)
-	)
+			(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
+				(progn
+		;		(print "If three")
+					(setf x (+ x 1))
+				)
+			)
 
-	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
-		(progn
-;		(print "if four")
-			(setf y (+ y 1))
+			(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
+				(progn
+		;		(print "if four")
+					(setf y (+ y 1))
+				)
+			)
 		)
-	)
-	)
-	)
+	) ;; loop ends here
 
 	(write test)
 	;(setq ((wordLength)(length wordString))
