@@ -2,7 +2,7 @@
 
 ;;; global states needed
 (defvar *canvas-w* 1000)
-(defvar *canvas-h* 1000)
+(defvar *canvas-h* 950)
 (defvar *click* nil) ;t when mouse is being pressed, nil otherwise
 (defvar *color1* (gamekit:vec4 0 0 0 1)) ;for drawing
 (defvar *color2* (gamekit:vec4 0.1 0.3 0.9 0.5))
