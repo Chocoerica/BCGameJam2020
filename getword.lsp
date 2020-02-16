@@ -39,6 +39,8 @@ What this file does:
 ;	(print count)
 	;(defvar direction (random 8))
 	(setf direction (random 7))
+	
+	(print wordString)
 	(setf x (random size))	
 	(setf y (random size))	
 	(defvar wordLength (length wordString))
@@ -50,7 +52,7 @@ What this file does:
 	;(setf (aref make-array 2 4) "1")
 	;(terpri)
 
-	(print wordString)
+	
 
 	(if (> count2 10)
 		(return-from check-word-fit)	
@@ -58,41 +60,64 @@ What this file does:
 	
 	
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
-		(print (- y wordLength))
-		(if(> -1 (- y wordLength))
-			(progn
-			;(print "This is bad 1") 
-			(setf count2 (+ count2 1))
-
-			(check-word-fit wordString)
-			(return-from check-word-fit))))
-
+		(progn
+			(format t "direction = ~A~%" direction)
+			(format t "y end is ~d~%" (- y wordLength))
+			(if(> -1 (- y wordLength))
+				(progn
+					(print "This is bad 1") 
+					(setf count2 (+ count2 1))
+					(check-word-fit wordString)
+					(return-from check-word-fit)
+				)
+			)
+		)
+	)
+	
 	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
-		(print (- x wordLength))
-		(if(> -1 (- x wordLength))
-			(progn
-			;(print "This is bad 2")
-			(setf count2 (+ count2 1))
-			(check-word-fit wordString)
-			(return-from check-word-fit))))
+		(progn
+			(format t "direction = ~A~%" direction)
+			(format t "x end is ~d~%" (- x wordLength))
+			(if(> -1 (- x wordLength))
+				(progn
+					(print "This is bad 2")
+					(setf count2 (+ count2 1))
+					(check-word-fit wordString)
+					(return-from check-word-fit)
+				)
+			)
+		)
+	)
 
 	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down
-		(print (+ y wordLength))
-		(if(< size (+ y wordLength))
-			(progn
-			;(print "This is bad 3")
-			(setf count2 (+ count2 1))
-			(check-word-fit wordString)
-			(return-from check-word-fit))))
+		(progn
+			(format t "direction = ~A~%" direction)
+			(format t "y2 end is ~d~%" (+ y wordLength))
+			(if(< size (+ y wordLength))
+				(progn
+					(print "This is bad 3")
+					(setf count2 (+ count2 1))
+					(check-word-fit wordString)
+					(return-from check-word-fit)
+				)
+			)
+		)
+	)
 
 	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
-		(print (+ x wordLength))
-		(if(< size (+ x wordLength))
-			(progn
-			;(print "This is bad 4")
-			(setf count2 (+ count2 1))
-			(check-word-fit wordString)
-			(return-from check-word-fit))))
+		(progn
+			(format t "direction = ~A~%" direction)
+			(format t "x2 end is ~d~%" (+ x wordLength))
+			(if(< size (+ x wordLength))
+				(progn
+					(print "This is bad 4")
+					(setf count2 (+ count2 1))
+					(check-word-fit wordString)
+					(return-from check-word-fit)
+				)
+			)
+		)
+	)
 
 
 	(print "there")
@@ -105,20 +130,33 @@ What this file does:
 			(setf (aref test x y) c)
 ;			(print "here")
 	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
+		(progn
 ;		(print "if one")
-		(setf y (- y 1)))
+			(setf y (- y 1))
+		)
+	)
 
 	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
+		(progn
 ;		(print "if two")
-		(setf x (- x 1)))
+		(setf x (- x 1))
+		)
+	)
 
 	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
+		(progn
 ;		(print "If three")
-		(setf y (+ y 1)))
+			(setf y (+ y 1))
+		)
+	)
 
 	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
+		(progn
 ;		(print "if four")
-		(setf x (+ x 1))))
+			(setf x (+ x 1))
+		)
+	)
+	)
 	)
 
 	(write test)
@@ -156,9 +194,9 @@ What this file does:
 	(let ((rand-num 0)))
 	(loop for x from 0 to (min (- num-words 1) 39)
 	do(progn
-		(format t "hi~%")
+		(format t "hi from choose-words~%")
 		(setq rand-num (random (- 41 x))) ; sets number to be from 0 to 39-x (0 to 39 first)
-		(format t "~a and rand num is ~a ~%" x rand-num)
+		;;(format t "~a and rand num is ~a ~%" x rand-num)
 		
 		;; need to add test if fit function SEE MITCH's CODE 
 		(setf count 0)
