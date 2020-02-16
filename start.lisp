@@ -501,11 +501,12 @@
 				)
 			)
 		)
-		(format t "~%")
 	)
+	(dolist (ww *words*) 
+		(gamekit:draw-text ww (gamekit:vec2 100 (- (* x 20) 290)) :fill-color *color3*)
+	) ; print words
 
-
-
+	
 
  	;;---------------------------------
 	(gamekit:draw-text "WORD SEARCH: made from LISP" (gamekit:vec2 250 925) :fill-color *color3*) ; title

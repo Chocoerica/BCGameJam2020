@@ -5,7 +5,6 @@
 	:depends-on(trivial-gamekit)
 	:components(
 		(:file "package")
-		(:file "word-search")
 		(:file "start")
 		
 		))
