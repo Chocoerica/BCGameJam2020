@@ -59,7 +59,8 @@
 							(format t "~% X ~a Y ~a ~%" xx yy)
 							(if (not (valid xx yy))
 								(princ ">:(( Click a square within the board") ; needs to be a quick draw/flash of text
-								(setf st (list xx yy))
+								(setf en (list xx yy))
+								
 							)
 						)
 						
