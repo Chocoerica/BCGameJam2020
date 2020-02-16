@@ -3,5 +3,7 @@
 	:description "Word Search Game made in LISP for BC Game Jam 2020"
 	:author "Keepers of the Parentheses Erica Mitch and VJ"
 	:depends-on(trivial-gamekit)
-	:components(())
+	:components((
+		(:file "word-search")
+	))
 )
