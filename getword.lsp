@@ -118,7 +118,98 @@ What this file does:
 			)
 		)
 	)
+	
+	;; VALIDATE IF OVERLAPPING HERE I GUESS BEFORE PRINTING ONTO THING
+	;;; should inc count2 and call func again
+	; for each of these it'll loop through length of word and check if 
+	; space is empty or not, if not nil then fail
+	(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
+		(progn
+			(let ((x1 x) (y1 y))
+				(loop for i from 0 to wordLength
+					do (progn
+						(if (not (eq (aref test x1 y1) nil))
+							; intersection will occur disallow
+							(progn
+								(princ "INTERSECTION!!!!")
+								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(incf count2 1)
+								(check-word-fit wordString)
+							)
+						)
+						(setf x1 (- x1 1))
+					)
+				)
+			)
 
+		)
+	)
+
+	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
+		(progn
+			(let ((x1 x) (y1 y))
+				(loop for i from 0 to wordLength
+					do (progn
+						(if (not (eq (aref test x1 y1) nil))
+							; intersection will occur disallow
+							(progn
+								(princ "INTERSECTION!!!!")
+								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(incf count2 1)
+								(check-word-fit wordString)
+							)
+						)
+						(setf y1 (- y1 1))
+					)
+				)
+			)
+
+		)
+	)
+
+	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down	
+		(progn
+			(let ((x1 x) (y1 y))
+				(loop for i from 0 to wordLength
+					do (progn
+						(if (not (eq (aref test x1 y1) nil))
+							; intersection will occur disallow
+							(progn
+								(princ "INTERSECTION!!!!")
+								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(incf count2 1)
+								(check-word-fit wordString)
+							)
+						)
+						(setf x1 (+ x1 1))
+					)
+				)
+			)
+
+		)
+	)
+
+	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
+		(progn
+			(let ((x1 x) (y1 y))
+				(loop for i from 0 to wordLength
+					do (progn
+						(if (not (eq (aref test x1 y1) nil))
+							; intersection will occur disallow
+							(progn
+								(princ "INTERSECTION!!!!")
+								(format t "~%x is ~A ~%y is ~A" x1 y1)
+								(incf count2 1)
+								(check-word-fit wordString)
+							)
+						)
+						(setf y1 (+ y1 1))
+					)
+				)
+			)
+
+		)
+	)
 
 	(print "there")
 	(loop for c across wordString
@@ -224,7 +315,7 @@ What this file does:
 ;;-------------------------------------------------------------------------
 
 ;(defvar *words* (choose-words *word-dictionary*)) 
-(defvar *words* (choose-words *word-dictionary* 1)) 
+(defvar *words* (choose-words *word-dictionary* 5)) 
 (format t "~%~% words are: ~a~%" *words*)
 
 #||
