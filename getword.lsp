@@ -24,7 +24,7 @@ What this file does:
 	- if it fits, then remove word from temp-dictionary
 ||# 
 
-(defvar size 20)
+(defvar size 10)
 
 (defvar count2 0)
 (defvar wordLength 0)
@@ -417,7 +417,10 @@ What this file does:
 )
 
 (defun print-grid (grid &optional *words*) ;;fills in non-nil index size by size grid with strings
-	(format t "~%~%WORDS to find: " )
+	(if (>= 0 (list-length *words*))
+		(write All words found!)
+		(format t "~%~%WORDS to find: " )
+	)
 			(dolist (ww *words*) (format t "~a " ww)) ; print words
 			(format t "~%")
 	(format t "   ")
