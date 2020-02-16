@@ -7,9 +7,10 @@ otherwise return original worldlist
 ||#
 ;;Global stuffs
 (setq *print-case* :downcase) ; all printed stuff will be lower case
-;(setf *random-state* (make-random-state t)) ; set randomness
+(setf *random-state* (make-random-state t)) ; set randomness
 (defvar grid (make-array (list 5 5)))
 
+;;kinda new stuff - if not nil, fill in with random
 (loop for x from 0 to 4
 	do (loop for y from 0 to 4
 		do (progn
@@ -23,21 +24,31 @@ otherwise return original worldlist
 (write grid)
 (format t "~%")
 
-(defun match-word (word tot-len wordlist) ; match against n index word in list, and return t or nil
-	(if (eq (length wordlist) 0 ) 
+
+(defun remove-word (index list)
+	(if (zerop index)(cdr list) 
+		(cons (car list) (remove-word (1- index) (cdr list)))
+	)
+)
+
+
+;; NEW STUFF HERE
+
+(defun match-word (word tot-len word-list) ; match against n index word in list, and return t or nil
+	(if (eq (length word-list) 0 ) 
 		(progn
 			(return-from match-word nil)
 		)
 		(progn
 			;(format t "word: ~a and wordlist ~a ~%" word (car wordlist))
-			(if (string-equal word (car wordlist)) ;test if word matches with first word of array
+			(if (string-equal word (car word-list)) ;test if word matches with first word of array
 				(progn
 					(format t "found~%")
-					(setf n (- tot-len (length wordlist)))
+					(setf n (- tot-len (length word-list)))
 					(return-from match-word n); if so, return index
 				)
 				(progn
-					(return-from match-word (match-word word tot-len (cdr wordlist)))
+					(return-from match-word (match-word word tot-len (cdr word-list)))
 				);run again with rest of list
 			)
 		)
@@ -45,8 +56,8 @@ otherwise return original worldlist
 	
 )
 
-;; FUNCTION HERE
-(defun check-coords (x1 y1 x2 y2 &optional wordlist)
+;; CHECK-COORDS FUNCTION HERE
+(defun check-coords (x1 y1 x2 y2 &optional word-list)
 	;;first check if coordinates are in a straight line
 	(if (or (eq x1 x2) (eq y1 y2) (eq (abs (- x2 x1)) (abs (- y2 y1))) )
 	;; if (x1 == x2) or (y1 == y2) or (abs(x1-x2) == abs(y1-y2)) then it works
@@ -76,9 +87,20 @@ otherwise return original worldlist
 					(progn
 						(format t " hey ~a ~%" new-word)
 					;;recursive search 
-						(setf index (match-word new-word (length wordlist) wordlist))
-						(format t "word found at index ~a ~%" index)
-						(format t "whoop~%")
+						(let ((index (match-word new-word (length word-list) word-list)))
+							(format t "word found at index ~a ~%" index)
+							(format t "whoop~%")
+							; return wordlist without that thing at index i
+							(if (not (eq nil index))
+								(progn
+									(let ((new-word-list (remove-word index word-list)))
+										(return-from check-coords new-word-list)
+									)
+								)
+								(return-from check-coords word-list)
+							)
+							
+						);end lifespan of index						
 					)
 				)
 			);;end of new-word and mvmt's lifespan
@@ -87,6 +109,7 @@ otherwise return original worldlist
 	
 		(progn
 			(format t "nope")
+			(return-from check-coords word-list)
 			;;just return wordlist
 		)
 	)
