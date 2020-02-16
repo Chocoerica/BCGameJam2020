@@ -53,7 +53,7 @@ What this file does:
 	(print wordString)
 
 	(if (> count2 10)
-		(return)	
+		(return-from check-word-fit)	
 	)
 	
 	
@@ -65,7 +65,7 @@ What this file does:
 			(setf count2 (+ count2 1))
 
 			(check-word-fit wordString)
-			(return))))
+			(return-from check-word-fit))))
 
 	(if (or (or (eq direction 5) (eq direction 4)) (eq direction 3)) ;left
 		(print (- x wordLength))
@@ -74,7 +74,7 @@ What this file does:
 			;(print "This is bad 2")
 			(setf count2 (+ count2 1))
 			(check-word-fit wordString)
-			(return))))
+			(return-from check-word-fit))))
 
 	(if (or (or (eq direction 5) (eq direction 6)) (eq direction 7)) ;down
 		(print (+ y wordLength))
@@ -83,7 +83,7 @@ What this file does:
 			;(print "This is bad 3")
 			(setf count2 (+ count2 1))
 			(check-word-fit wordString)
-			(return))))
+			(return-from check-word-fit))))
 
 	(if (or (or (eq direction 7) (eq direction 0)) (eq direction 1)) ;right
 		(print (+ x wordLength))
@@ -92,7 +92,7 @@ What this file does:
 			;(print "This is bad 4")
 			(setf count2 (+ count2 1))
 			(check-word-fit wordString)
-			(return))))
+			(return-from check-word-fit))))
 
 
 	(print "there")
@@ -128,7 +128,7 @@ What this file does:
 	;(print direction)
 	;(print x)
 	;(print y)
-	(return (< 1 10))
+	(return-from check-word-fit (< 1 10))
 )
 
 ;;----------------------------
