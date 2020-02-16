@@ -15,7 +15,7 @@
 							"overcome" "prove" "reign" "succeed" "winner"  
 							"truimph" "victory" "obstacle" "beaten" "rules" 
 							"feel" "someone" "glory" "guts" "circle"      
-							"friend" "everyone" "prevail" "pack" "pompassion" 
+							"friend" "everyone" "prevail" "pack" "compassion" 
 							"whylisp" "empathy" "suffer" "concern" "world" ) )
 #||  
 What this file does:
@@ -452,7 +452,7 @@ What this file does:
 	(loop for x from 0 to (min (- num-words 1) 39)
 	do(progn
 		;; (format t "hi from choose-words~%")
-		(setq rand-num (random (- 41 x))) ; sets number to be from 0 to 39-x (0 to 39 first)
+		(setq rand-num (random (- 40 x))) ; sets number to be from 0 to 39-x (0 to 39 first)
 		;;(format t "~a and rand num is ~a ~%" x rand-num)
 		
 		;; need to add test if fit function SEE MITCH's CODE 
@@ -472,8 +472,36 @@ What this file does:
 	(setq word-list word-list)
 )
 
-(defvar *words* (choose-words *word-dictionary* 5)) 
-(rand-fill-in)
+(defun print-grid (grid &optional *words*) ;;fills in non-nil index size by size grid with strings
+	(format t "~%~%WORDS to find: " )
+			(dolist (ww *words*) (format t "~a " ww)) ; print words
+			(format t "~%")
+	(format t "  ")
+	(loop for y from 0 to (- size 1)
+		do(progn
+			(format t "~a " y)
+		)
+	)
+	(format t "~%")
+	(loop for y from 0 to (- size 1)
+		do (progn
+			(format t "~a " y)
+			(loop for x from 0 to (- size 1)
+				do (progn
+					(if (eq nil(aref grid y x)) 
+						(format t "  ") 
+						(format t "~a "(aref grid y x))
+					)
+				)
+			)
+		)
+		(format t "~%")
+	)
+)
+
+
+(defvar *words* (choose-words *word-dictionary* 8)) 
+;(rand-fill-in)
 
 
 (princ "Welcome to the end of your existence")
@@ -488,7 +516,7 @@ What this file does:
 (loop 
 	(progn
 		; print board
-		(write test)
+		(print-grid test)
 		(terpri)
 
 		; take input
@@ -497,6 +525,7 @@ What this file does:
 		; verify
 		(if (not (eq (length *words*) 0))
 			(setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
+			;(dolist (ww *words*) (format t "~a " ww)) ; print words
 		)
 	)
 
