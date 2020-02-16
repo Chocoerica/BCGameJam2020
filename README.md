@@ -15,3 +15,12 @@ VJ
  * coor verfification 
  * `erica` master dict of words for puzzle to randomly grab from
  * *bulatov accent* "`trivial`" method for filling unpopulated cells with giberish
+ * Figure out how to transfer inputs and outputs onto word-search.lisp file
+
+To compile:
+(ql:quickload :word-search)
+
+To run:
+(gamekit:start 'word-search:word-search)
+need to stop before compile:
+(gamekit:stop) --> doesn't work, need to restart terminal

@@ -1,13 +1,9 @@
-; 3 2 1
-;  \|/
-;4--+--0
-;  /|\
-; 5 6 7
-
-
+;;; WHAT THIS FILE MIGHT DO:
+;; has function gen-start which generates an array of what is going to be on the grid
+;; returns array and wordlist
+;; 
 (setq *print-case* :downcase) ; all printed stuff will be lower case
 (setf *random-state* (make-random-state t)) ; set randomness
-
 
 (defvar *word-dictionary* (list "super" "good" "hello" "bear" "given" 
 							"regret" "crocs" "apple" "heart" "love"     
@@ -17,12 +13,7 @@
 							"feel" "someone" "glory" "guts" "circle"      
 							"friend" "everyone" "prevail" "pack" "compassion" 
 							"whylisp" "empathy" "suffer" "concern" "world" ) )
-#||  
-What this file does:
-	- function that takes list of words from dictionary
-	- see if word fits
-	- if it fits, then remove word from temp-dictionary
-||# 
+
 
 (defvar size 10)
 
@@ -175,7 +166,6 @@ What this file does:
 	;(setf (aref make-array 2 4) "1")
 	;(terpri)
 
-	
 
 	(if (> count2 10)
 		(return-from check-word-fit nil)	
@@ -238,7 +228,6 @@ What this file does:
 		)
 	)
 	
-	;; VALIDATE IF OVERLAPPING HERE I GUESS BEFORE PRINTING ONTO THING
 	(let ((x1 x) (y1 y))
 		(loop for i from 0 to (- wordLength 1)
 			do (progn (if (not (eq (aref test x1 y1) nil))
@@ -291,7 +280,7 @@ What this file does:
 ;			(print c)
 ;			(print x)
 ;			(print y)
-			(setf (aref test x y) (string c))
+			(setf (aref test x y) c)
 ;			(print "here")
 			(if (or (or (eq direction 2) (eq direction 1)) (eq direction 3)) ;UP
 				(progn
@@ -407,37 +396,33 @@ What this file does:
 	)
 )
 
+(defun gen-start()
+    (defvar *words* (choose-words *word-dictionary* 8)) 
+    ;(rand-fill-in)test
 
-(defvar *words* (choose-words *word-dictionary* 8)) 
-<<<<<<< HEAD
-(rand-fill-in)
+    (princ "Welcome to the end of your existence")
+    (terpri)
+    (princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
+    (terpri)
+    (princ "Enter \"q\" w/o the quotes to exist the game")
+    (terpri)
+    (princ "Enter Y to begin..............")
+    (read)
 
-=======
-;(rand-fill-in)test
->>>>>>> evtest
+    (loop 
+        (progn
+            ; print board
+            (print-grid test)
+            (terpri)
 
-(princ "Welcome to the end of your existence")
-(terpri)
-(princ "To play the game just enter (x y) coordinates when prompted along w/ the paranthesis.")
-(terpri)
-(princ "Enter \"q\" w/o the quotes to exist the game")
-(terpri)
-(princ "Enter Y to begin..............")
-(read)
+            ; take input
+            (take_input)
 
-(loop 
-	(progn
-		; print board
-		(print-grid test *words*)
-		(terpri)
-
-		; take input
-		(take_input)
-
-		; verify
-		(if (not (eq (length *words*) 0))
-			(setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
-			;(dolist (ww *words*) (format t "~a " ww)) ; print words
-		)
-	)
+            ; verify
+            (if (not (eq (length *words*) 0))
+                (setf *words* (check-coords (first start) (second start) (first end) (second end) *words*))
+                ;(dolist (ww *words*) (format t "~a " ww)) ; print words
+            )
+        )
+    )
 )
